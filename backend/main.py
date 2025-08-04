@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
+from pydantic import BaseModel
 import requests
 import json
 
@@ -7,11 +8,13 @@ app = FastAPI()
 MISTRAL_URL = "https://api.mistral.ai/v1/fim/completions"
 MISTRAL_API_KEY = "your_api_key_here"  # Reemplaza con tu clave real
 
-@app.post("/generate-code")
-async def generate_code(request: Request):
-    body = await request.json()
-    prompt = body.get("prompt", "def")
 
+class PromptRequest(BaseModel):
+    prompt: str
+
+
+@app.post("/generate-code")
+async def generate_code(request: PromptRequest):
     payload = {
         "model": "codestral-2405",
         "temperature": 1.5,
@@ -19,7 +22,7 @@ async def generate_code(request: Request):
         "stream": False,
         "stop": "string",
         "random_seed": 0,
-        "prompt": prompt
+        "prompt": request.prompt
     }
 
     headers = {
