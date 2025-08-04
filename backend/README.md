@@ -5,7 +5,7 @@ Este proyecto proporciona un backend sencillo en FastAPI que expone un endpoint 
 ## 📂 Archivos incluidos
 
 - `main.py`: Servidor FastAPI con un endpoint POST `/generate-code`.
-- `requirements.txt`: Dependencias necesarias (puedes generarlo si lo deseas).
+- `requirements.txt`: Dependencias necesarias.
 - `README.md`: Este documento.
 
 ## 🚀 Cómo ejecutar
@@ -68,11 +68,7 @@ Haz clic en **Execute** para ver la respuesta del modelo.
 
 ```json
 {
-  "choices": [
-    {
-      "text": "... código completado ..."
-    }
-  ]
+  "generated_code": "    if n <= 0:\n        return []\n    elif n == 1:\n        return [0]\n    ..."
 }
 ```
 
