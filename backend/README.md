@@ -34,11 +34,27 @@ uvicorn main:app --reload
 
 Por defecto, estará disponible en: `http://127.0.0.1:8000`
 
+## 🌐 Interfaz de prueba rápida (Swagger UI)
+
+Abre tu navegador y entra a:
+
+**http://127.0.0.1:8000/docs**
+
+Ahí verás una interfaz donde puedes probar el endpoint **POST /generate-code**. Solo haz clic en "Try it out" y escribe tu prompt, por ejemplo:
+
+```json
+{
+  "prompt": "def fibonacci(n):"
+}
+```
+
+Haz clic en **Execute** para ver la respuesta del modelo.
+
 ## 📡 Endpoint disponible
 
 ### `POST /generate-code`
 
-**Descripción**: Envia un `prompt` al modelo `codestral-2405` de Mistral para completar código.
+**Descripción**: Envía un `prompt` al modelo `codestral-2405` de Mistral para completar código.
 
 **Body JSON de ejemplo**:
 
