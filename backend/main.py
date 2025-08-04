@@ -33,6 +33,7 @@ async def generate_code(request: PromptRequest):
     response = requests.post(MISTRAL_URL, headers=headers, data=json.dumps(payload))
 
     try:
-        return response.json()
+        result = response.json()
+        return {"generated_code": result["choices"][0]["message"]["content"]}
     except Exception:
         return {"error": "Invalid response from Mistral API", "raw": response.text}
