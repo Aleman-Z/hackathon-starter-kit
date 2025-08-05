@@ -6,7 +6,7 @@ from typing import Annotated
 from app import database,llm_services,auth
 app = FastAPI(title="API de Aprendizaje con Login")
 
-# --- ENDPOINTS DE AUTENTICACIÓN ---
+# --- ENDPOINTS DE AUTENTICACIÓN ----
 
 from fastapi import FastAPI, Depends, HTTPException, status, Header
 from fastapi.security import OAuth2PasswordRequestForm
