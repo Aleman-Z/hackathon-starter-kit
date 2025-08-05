@@ -11,14 +11,18 @@ topic = st.text_input("📚 Tema que quieres aprender:", value="CRISPR")
 if st.button("Generar resumen"):
     with st.spinner("Generando..."):
         try:
-            # ✅ FIXED: Send 'topic' key, not 'prompt'
             response = requests.post("http://127.0.0.1:8000/generate-text", json={"topic": topic})
 
             if response.status_code == 200:
                 result = response.json()
-                # ✅ FIXED: Use 'text' key
-                st.text_area("🧠 Resumen generado:", value=result["text"], height=800)
+                long_text = result["text"]
+
+                st.markdown("### 🧠 Resumen generado:")
+                with st.container():
+                    for i in range(0, len(long_text), 3000):
+                        st.markdown(long_text[i:i+3000])
             else:
                 st.error(f"Error {response.status_code}: {response.text}")
         except Exception as e:
             st.error(f"Ocurrió un error: {e}")
+
