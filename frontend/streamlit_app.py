@@ -1,20 +1,20 @@
 import streamlit as st
 import requests
 
-st.set_page_config(page_title="Code Generator with Mistral", layout="centered")
+st.set_page_config(page_title="Spotify para aprender", layout="centered")
 
-st.title("💡 Mistral Code Generator")
-st.markdown("Escribe el inicio de una función en Python y genera el resto usando el modelo `codestral-2405` vía FastAPI backend.")
+st.title("📘 Spotify para aprender")
+st.markdown("Escribe un tema de interés (por ejemplo, 'CRISPR') y recibe un resumen educativo de aproximadamente 5 minutos de lectura.")
 
-prompt = st.text_area("✍️ Escribe tu prompt:", value="def fibonacci(n):", height=150)
+topic = st.text_input("📚 Tema que quieres aprender:", value="CRISPR")
 
-if st.button("Generar código"):
+if st.button("Generar resumen"):
     with st.spinner("Generando..."):
         try:
-            response = requests.post("http://127.0.0.1:8000/generate-code", json={"prompt": prompt})
+            response = requests.post("http://127.0.0.1:8000/generate-code", json={"prompt": topic})
             if response.status_code == 200:
                 result = response.json()
-                st.code(result["generated_code"], language="python")
+                st.text_area("🧠 Resumen generado:", value=result["generated_code"], height=400)
             else:
                 st.error(f"Error {response.status_code}: {response.text}")
         except Exception as e:
