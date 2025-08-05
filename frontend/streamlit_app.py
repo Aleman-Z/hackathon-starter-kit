@@ -16,12 +16,15 @@ if st.button("Generar resumen"):
             if response.status_code == 200:
                 result = response.json()
                 full_text = result["text"]
-
+            
                 st.markdown("### 🧠 Resumen generado:")
-
-                with st.expander("Haz clic para ver el resumen completo", expanded=True):
-                    for i in range(0, len(full_text), 5000):
-                        st.text(full_text[i:i+5000])
+            
+                # ✅ Custom scrollable HTML container
+                st.components.v1.html(f"""
+                    <div style="height:800px; overflow-y:scroll; padding:1em; border:1px solid #ddd; background-color:#fefefe; font-family:Arial; white-space:pre-wrap;">
+                        {full_text}
+                    </div>
+                """, height=820)
 
             else:
                 st.error(f"Error {response.status_code}: {response.text}")
