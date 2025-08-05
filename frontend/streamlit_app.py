@@ -15,12 +15,14 @@ if st.button("Generar resumen"):
 
             if response.status_code == 200:
                 result = response.json()
-                long_text = result["text"]
+                full_text = result["text"]
 
                 st.markdown("### 🧠 Resumen generado:")
-                with st.container():
-                    for i in range(0, len(long_text), 3000):
-                        st.markdown(long_text[i:i+3000])
+
+                with st.expander("Haz clic para ver el resumen completo", expanded=True):
+                    for i in range(0, len(full_text), 5000):
+                        st.text(full_text[i:i+5000])
+
             else:
                 st.error(f"Error {response.status_code}: {response.text}")
         except Exception as e:
