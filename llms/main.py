@@ -3,10 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 
 # Importaciones locales
-import app.database
-import app.llm_services
-import app.auth
-
+from app import database,llm_services,auth
 app = FastAPI(title="API de Aprendizaje con Login")
 
 # --- ENDPOINTS DE AUTENTICACIÓN ---
