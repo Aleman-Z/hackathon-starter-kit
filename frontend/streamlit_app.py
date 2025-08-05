@@ -17,7 +17,9 @@ if st.button("Generar resumen"):
             if response.status_code == 200:
                 result = response.json()
                 # ✅ FIXED: Use 'text' key
-                st.text_area("🧠 Resumen generado:", value=result["text"], height=400)
+                #st.text_area("🧠 Resumen generado:", value=result["text"], height=600)
+                st.markdown(result["text"])
+
             else:
                 st.error(f"Error {response.status_code}: {response.text}")
         except Exception as e:
