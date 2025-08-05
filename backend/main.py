@@ -1,39 +1,34 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import requests
-import json
+import requests, json
 
 app = FastAPI()
 
-MISTRAL_URL = "https://api.mistral.ai/v1/fim/completions"
-MISTRAL_API_KEY = "your_api_key_here"  # Reemplaza con tu clave real
+MISTRAL_URL = "https://api.mistral.ai/v1/chat/completions"
+MISTRAL_MODEL = "mistral-small-latest"  # or any available instruct-capable model
+MISTRAL_API_KEY = "your_api_key_here"
 
+class TopicRequest(BaseModel):
+    topic: str
 
-class PromptRequest(BaseModel):
-    prompt: str
-
-
-@app.post("/generate-code")
-async def generate_code(request: PromptRequest):
+@app.post("/generate-text")
+async def generate_text(req: TopicRequest):
+    system_prompt = (
+        f"Explica el tema '{req.topic}' en un texto educativo "
+        "de aproximadamente 5 minutos de lectura, con lenguaje claro y estructurado."
+    )
     payload = {
-        "model": "codestral-2405",
-        "temperature": 1.5,
-        "top_p": 1,
-        "stream": False,
-        "stop": "string",
-        "random_seed": 0,
-        "prompt": request.prompt
+        "model": MISTRAL_MODEL,
+        "messages": [
+            {"role": "user", "content": system_prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 512
     }
-
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {MISTRAL_API_KEY}"
     }
-
-    response = requests.post(MISTRAL_URL, headers=headers, data=json.dumps(payload))
-
-    try:
-        result = response.json()
-        return {"generated_code": result["choices"][0]["message"]["content"]}
-    except Exception:
-        return {"error": "Invalid response from Mistral API", "raw": response.text}
+    res = requests.post(MISTRAL_URL, headers=headers, json=payload)
+    data = res.json()
+    return {"text": data["choices"][0]["message"]["content"]}
