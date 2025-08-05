@@ -11,7 +11,7 @@ topic = st.text_input("📚 Tema que quieres aprender:", value="CRISPR")
 if st.button("Generar resumen"):
     with st.spinner("Generando..."):
         try:
-            response = requests.post("http://127.0.0.1:8000/generate-code", json={"prompt": topic})
+            response = requests.post("http://127.0.0.1:8000/generate-text", json={"prompt": topic})
             if response.status_code == 200:
                 result = response.json()
                 st.text_area("🧠 Resumen generado:", value=result["generated_code"], height=400)
