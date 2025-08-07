@@ -27,8 +27,6 @@ Cada carpeta corresponde a un equipo o módulo funcional:
 
 ## 🚀 Cómo empezar
 
-> ⚠️ Este repositorio es un **kit de inicio**, no una app lista para producción.
-
 Para comenzar, clona el repositorio y explora cada módulo según tu rol (frontend, backend, LLMs, etc.). El proyecto está diseñado para que los equipos trabajen de forma independiente pero dentro de una arquitectura unificada.
 
 ```bash
