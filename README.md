@@ -37,7 +37,7 @@ Cada carpeta contiene su propio README o un `main.py`/`app.py` para facilitar la
 
 ## 🙌 Créditos
 
-Este kit fue desarrollado por **Team México** para el **Global AI Hackathon - MIT Sloan & HackNation 2025**.
+Este kit fue desarrollado por **Team México** para el **Global AI Hackathon HackNation 2025**.
 
 **Equipo y roles principales:**
 
