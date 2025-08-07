@@ -101,7 +101,7 @@ Puedes decodificar este audio base64 para obtener un archivo `.mp3` o reproducir
 ## 👥 Créditos
 
 Desarrollado por el equipo **Backend** durante el hackathon:  
-@Aleman-Z, Joaquín (Nai), Max – Endpoints y lógica del servidor  
-@Aleman-Z – Conversión de texto a audio  
+[@Aleman-Z](https://github.com/Aleman-Z), Joaquín (Nai), Max – Endpoints y lógica del servidor  
+[@Aleman-Z](https://github.com/Aleman-Z) – Conversión de texto a audio  
 
 Para dudas, contactar a Max o Adrián.
