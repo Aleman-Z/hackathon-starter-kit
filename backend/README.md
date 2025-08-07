@@ -1,82 +1,107 @@
-# Mistral API Backend (FastAPI)
+# 🧠 Backend API - Generación de Texto y Audio Educativo
 
-Este proyecto proporciona un backend sencillo en FastAPI que expone un endpoint para interactuar con el modelo `codestral-2405` de Mistral (vía endpoint de FIM: Fill-in-the-middle).
+Este backend en **FastAPI** permite generar textos educativos usando el modelo de lenguaje de **Mistral** y convertirlos en audio tipo podcast usando la API de **ElevenLabs**. Es parte del prototipo de una app llamada **"Spotify for Learning"** desarrollado durante el hackathon.
 
-## 📂 Archivos incluidos
+## 📂 Estructura del repositorio
 
-- `main.py`: Servidor FastAPI con un endpoint POST `/generate-code`.
-- `requirements.txt`: Dependencias necesarias.
-- `README.md`: Este documento.
+- `main.py`: Servidor FastAPI con dos endpoints:
+  - `POST /generate-text`: Genera un texto educativo a partir de un tema.
+  - `POST /generate-audio`: Convierte el texto en audio tipo podcast.
+- `requirements.txt`: Lista de dependencias.
+- `README.md`: Este archivo.
 
-## 🚀 Cómo ejecutar
+## ⚙️ Requisitos
 
-### 1. Instala dependencias
+Instala las dependencias necesarias:
 
 ```bash
-pip install fastapi uvicorn requests
+pip install fastapi uvicorn requests pydantic
 ```
 
-### 2. Agrega tu API Key de Mistral
+## 🔐 Configura tus claves API
 
-Edita el archivo `main.py` y reemplaza:
+Edita el archivo `main.py` y reemplaza los valores vacíos con tus claves reales:
 
 ```python
-MISTRAL_API_KEY = "your_api_key_here"
+MISTRAL_API_KEY = "TU_API_KEY_MISTRAL"
+ELEVENLABS_API_KEY = "TU_API_KEY_ELEVENLABS"
 ```
 
-por tu clave real de Mistral.
+También puedes cambiar el `VOICE_ID` si deseas usar una voz diferente.
 
-### 3. Ejecuta el servidor
+## 🚀 Cómo ejecutar el servidor
+
+En la raíz del backend, ejecuta:
 
 ```bash
 uvicorn main:app --reload
 ```
 
-Por defecto, estará disponible en: `http://127.0.0.1:8000`
+Por defecto estará disponible en: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-## 🌐 Interfaz de prueba rápida (Swagger UI)
+## 🧪 Prueba rápida con Swagger UI
 
-Abre tu navegador y entra a:
+Abre tu navegador en: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)  
+Aquí podrás probar los endpoints fácilmente.
 
-**http://127.0.0.1:8000/docs**
+## 📡 Endpoints disponibles
 
-Ahí verás una interfaz donde puedes probar el endpoint **POST /generate-code**. Solo haz clic en "Try it out" y escribe tu prompt, por ejemplo:
+### `POST /generate-text`
 
-```json
-{
-  "prompt": "def fibonacci(n):"
-}
-```
+**Descripción**: Genera un texto educativo de ~5 minutos basado en un tema.
 
-Haz clic en **Execute** para ver la respuesta del modelo.
-
-## 📡 Endpoint disponible
-
-### `POST /generate-code`
-
-**Descripción**: Envía un `prompt` al modelo `codestral-2405` de Mistral para completar código.
-
-**Body JSON de ejemplo**:
+**JSON de entrada**:
 
 ```json
 {
-  "prompt": "def fibonacci(n):"
+  "topic": "La fotosíntesis"
 }
 ```
 
-**Respuesta esperada**:
+**Respuesta**:
 
 ```json
 {
-  "generated_code": "    if n <= 0:\n        return []\n    elif n == 1:\n        return [0]\n    ..."
+  "text": "La fotosíntesis es el proceso mediante el cual..."
 }
 ```
 
-## 🛠️ Notas
+---
 
-- Este ejemplo usa el endpoint FIM (fill-in-the-middle) de Mistral.
-- Asegúrate de respetar los límites de uso de la API.
+### `POST /generate-audio`
 
-## 📬 Créditos
+**Descripción**: Convierte un texto a audio estilo podcast utilizando ElevenLabs.
 
-Desarrollado como parte de un hackathon colaborativo por el equipo Backend. Para dudas, contactar a Max o Adrián.
+**JSON de entrada**:
+
+```json
+{
+  "text": "La fotosíntesis es el proceso mediante el cual..."
+}
+```
+
+**Respuesta**:
+
+```json
+{
+  "audio_base64": "UklGRtYAAABXQVZFZm10IBAAAAABAAEA..."
+}
+```
+
+Puedes decodificar este audio base64 para obtener un archivo `.mp3` o reproducirlo en frontend.
+
+---
+
+## 📝 Notas adicionales
+
+- El texto se convierte a SSML (Speech Synthesis Markup Language) para mejorar la entonación y pausas.
+- ElevenLabs requiere una cuenta y API key activa.
+- Mistral también requiere una clave válida para uso de su API.
+
+## 👥 Créditos
+
+Desarrollado por el equipo **Backend** durante el hackathon:  
+@Joaquín (Nai), Max – Endpoints y lógica del servidor  
+@Adrián – Conversión de texto a audio  
+
+Para dudas, contactar a Max o Adrián.
