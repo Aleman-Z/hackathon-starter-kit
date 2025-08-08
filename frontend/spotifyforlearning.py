@@ -1,5 +1,8 @@
 import streamlit as st
 import base64
+import requests
+BACKEND_URL = "http://localhost:8000"  # Adjust if hosted elsewhere
+
 
 # ============================================================================
 # CONFIGURACIÓN DE PÁGINA
@@ -260,31 +263,32 @@ if 'audio_path' not in st.session_state:
 # Función para generar resumen (aquí pueden hacer la magia (va la API y el back)
 # Texto de ejemplo 
 def generar_resumen(tema):
-    resumen_ejemplo = f"""**{tema}**: Una introducción completa
+    try:
+        response = requests.post(f"{BACKEND_URL}/generate-text", json={"topic": tema})
+        if response.status_code == 200:
+            return response.json().get("text", "Error: No se pudo generar el texto.")
+        else:
+            return f"Error en el backend: {response.status_code}"
+    except Exception as e:
+        return f"Error de conexión: {str(e)}"
 
-{tema} es un tema fascinante que abarca múltiples aspectos y aplicaciones en el mundo moderno. 
-
-**Conceptos clave:**
-• Definición y origen del tema
-• Aplicaciones prácticas en la vida cotidiana  
-• Impacto en diferentes industrias
-• Desarrollos futuros y tendencias
-
-**¿Por qué es importante?**
-El estudio de {tema} nos permite comprender mejor cómo funciona el mundo que nos rodea y cómo podemos aplicar estos conocimientos para resolver problemas reales.
-
-**Aplicaciones prácticas:**
-Este conocimiento puede aplicarse en campos como la tecnología, medicina, educación y muchas otras áreas que afectan nuestra vida diaria.
-
-**Conclusión:**
-{tema} representa una oportunidad única para expandir nuestro conocimiento y desarrollar habilidades que serán valiosas en el futuro."""
-    return resumen_ejemplo
 
 # Función para generar audio con Eleven Labs (aquí integran la API real)
 def generar_audio_eleven_labs(texto):
-    import time
-    time.sleep(2)  # Simular procesamiento
-    return "audio_generado.mp3"  # Retorna la ruta del audio generado
+    try:
+        response = requests.post(f"{BACKEND_URL}/generate-audio", json={"text": texto})
+        if response.status_code == 200:
+            audio_base64 = response.json().get("audio_base64", "")
+            audio_bytes = base64.b64decode(audio_base64)
+            output_path = "audio_generado.mp3"
+            with open(output_path, "wb") as f:
+                f.write(audio_bytes)
+            return output_path
+        else:
+            return None
+    except Exception as e:
+        return None
+
 
 # Función para formatear HTML
 def formatear_resumen_html(texto):
@@ -601,22 +605,18 @@ if st.session_state.resumen_generado:
 
 # Mostrar reproductor de audio si se ha generado
 if st.session_state.audio_generado and st.session_state.audio_path:
-    st.markdown(f"""
-    <div class="audio-container">
-        <div class="audio-player">
-            <audio controls>
-                <source src="{st.session_state.audio_path}" type="audio/mpeg">
-                Tu navegador no soporta el elemento de audio.
-            </audio>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
+    with open(st.session_state.audio_path, "rb") as audio_file:
+        audio_bytes = audio_file.read()
+        st.audio(audio_bytes, format="audio/mp3")
+
     # Botón para descargar audio
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col2:
-        if st.button("📥 Descargar audio", key="descargar_audio"):
-            st.success("¡Audio descargado exitosamente!")
+    st.download_button(
+        label="📥 Descargar audio",
+        data=audio_bytes,
+        file_name="resumen_audio.mp3",
+        mime="audio/mpeg",
+        key="descargar_audio"
+    )
 
 # FOOTER
 st.write('<div class="footer">Todos los derechos reservados TEAM MEXICO GLOBAL IA HACKATHON</div>', 
