@@ -44,7 +44,7 @@ Este kit fue desarrollado por **Team México** para el **Global AI Hackathon Hac
 | Módulo          | Integrantes                                                                 | Rol principal                                      |
 |------------------|----------------------------------------------------------------------------|----------------------------------------------------|
 | **Frontend**     | [@EsveBavi](https://github.com/EsveBavi), Guadalupe Vásquez                                                    | Diseño e implementación de la interfaz             |
-| **Backend**      | [@Aleman-Z](https://github.com/Aleman-Z), Joaquín (Nai), Max                                                         | Creación de endpoints y conexiones                 |
+| **Backend**      | [@Aleman-Z](https://github.com/Aleman-Z), Joaquín (Nai)                                                         | Creación de endpoints y conexiones                 |
 | **LLMs**         | [@Brandon331](https://github.com/Brandon331)        | Generación de texto y sugerencias                 |
 | **Audio**        | [@Aleman-Z](https://github.com/Aleman-Z), Deya                             | Conversión de texto a audio tipo podcast           |
 | **Comunicación** | [@AlfonsoGovela](https://github.com/AlfonsoGovela), Deya                  | Documentación, narrativa, visibilidad              |
