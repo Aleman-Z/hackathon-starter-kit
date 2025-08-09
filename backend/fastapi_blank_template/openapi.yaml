@@ -1,6 +1,6 @@
 openapi: 3.0.4
 info:
-  title: Mñexico Global AI Hackathon Starter Kit
+  title: México Global AI Hackathon Starter Kit
   version: 1.0.0
   description: API template para proyectos clásicos de IA con endpoints para subir archivos, prompts y conectar con modelos externos (MongoDB, Firebase, OpenAI).
 servers:
