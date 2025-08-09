@@ -1,0 +1,157 @@
+openapi: 3.0.4
+info:
+  title: Mñexico Global AI Hackathon Starter Kit
+  version: 1.0.0
+  description: API template para proyectos clásicos de IA con endpoints para subir archivos, prompts y conectar con modelos externos (MongoDB, Firebase, OpenAI).
+servers:
+  - url: http://localhost:8000
+paths:
+  /upload/csv:
+    post:
+      summary: Subir archivo CSV
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: CSV recibido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                  status:
+                    type: string
+  /upload/image:
+    post:
+      summary: Subir imagen
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Imagen recibida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                  status:
+                    type: string
+  /prompt:
+    post:
+      summary: Enviar prompt de texto
+      description: |
+        Envía un prompt de texto para procesamiento con modelos externos como OpenAI.
+        Ejemplo de integración con OpenAI:
+        ```
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        output = response.choices[0].message["content"]
+        return {"prompt": prompt, "output": output}
+        ```
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+      responses:
+        '200':
+          description: Prompt recibido o respuesta de modelo externo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prompt:
+                    type: string
+                  status:
+                    type: string
+                  output:
+                    type: string
+                    description: Respuesta generada por el modelo (si aplica)
+  /result/{task_id}:
+    get:
+      summary: Obtener resultado procesado
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resultado de la tarea
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task_id:
+                    type: string
+                  result:
+                    type: string
+  /transform:
+    post:
+      summary: Transformar datos arbitrarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Transformación realizada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  input:
+                    type: object
+                  output:
+                    type: string
+  /download/{file_id}:
+    get:
+      summary: Descargar archivo o video generado
+      parameters:
+        - name: file_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Enlace de descarga generado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  file_id:
+                    type: string
